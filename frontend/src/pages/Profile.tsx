@@ -21,9 +21,9 @@ const Profile: React.FC = () => {
     try {
       await api.put('/api/user/update', { username, email })
       await refreshMe()
-      setMessage('Profile updated')
+      setMessage('资料已更新')
     } catch (e: any) {
-      setError(e?.response?.data?.message || 'Update failed')
+      setError(e?.response?.data?.message || '更新失败')
     }
   }
 
@@ -31,20 +31,20 @@ const Profile: React.FC = () => {
 
   return (
     <div className="mx-auto max-w-lg">
-      <h1 className="mb-6 text-2xl font-semibold">My Profile</h1>
-      <div className="mb-4 text-sm text-gray-600">User ID: {user.id} • Registered at: {new Date(user.createdAt).toLocaleString()}</div>
+      <h1 className="mb-6 text-2xl font-semibold">个人资料</h1>
+      <div className="mb-4 text-sm text-gray-600">用户ID：{user.id} • 注册时间：{new Date(user.createdAt).toLocaleString('zh-CN')}</div>
       <form onSubmit={onSubmit} className="space-y-4">
         <div>
-          <Label htmlFor="username">Username</Label>
+          <Label htmlFor="username">用户名</Label>
           <Input id="username" value={username} onChange={e => setUsername(e.target.value)} required />
         </div>
         <div>
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">邮箱</Label>
           <Input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} required />
         </div>
         {error && <p className="text-sm text-red-600">{error}</p>}
         {message && <p className="text-sm text-green-600">{message}</p>}
-        <Button type="submit">Save</Button>
+        <Button type="submit">保存</Button>
       </form>
     </div>
   )

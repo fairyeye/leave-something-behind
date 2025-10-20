@@ -19,26 +19,26 @@ const Login: React.FC = () => {
       await login(identifier, password)
       nav('/')
     } catch (e: any) {
-      setError(e?.response?.data?.message || 'Login failed')
+      setError(e?.response?.data?.message || '登录失败')
     }
   }
 
   return (
     <div className="mx-auto max-w-md">
-      <h1 className="mb-6 text-2xl font-semibold">Login</h1>
+      <h1 className="mb-6 text-2xl font-semibold">登录</h1>
       <form onSubmit={onSubmit} className="space-y-4">
         <div>
-          <Label htmlFor="identifier">Email or Username</Label>
+          <Label htmlFor="identifier">邮箱或用户名</Label>
           <Input id="identifier" value={identifier} onChange={e => setIdentifier(e.target.value)} required />
         </div>
         <div>
-          <Label htmlFor="password">Password</Label>
+          <Label htmlFor="password">密码</Label>
           <Input id="password" type="password" value={password} onChange={e => setPassword(e.target.value)} required />
         </div>
         {error && <p className="text-sm text-red-600">{error}</p>}
-        <Button type="submit" className="w-full">Login</Button>
+        <Button type="submit" className="w-full">登录</Button>
       </form>
-      <p className="mt-4 text-sm">No account? <Link className="text-blue-600" to="/register">Register</Link></p>
+      <p className="mt-4 text-sm">还没有账号？<Link className="text-blue-600" to="/register">去注册</Link></p>
     </div>
   )
 }

@@ -1,0 +1,33 @@
+server:
+  port: ${PORT:8080}
+
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/legacydb?useSSL=false&serverTimezone=UTC}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+
+jwt:
+  secret: ${JWT_SECRET:change-this-secret-please-change-to-a-long-random-string}
+  expirationMs: ${JWT_EXPIRATION_MS:604800000} # 7 days
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+# For local dev frontend
+cors:
+  allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173}

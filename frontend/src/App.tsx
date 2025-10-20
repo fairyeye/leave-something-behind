@@ -22,7 +22,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     <div>
       <header className="border-b">
         <div className="container flex items-center justify-between py-3">
-          <Link to="/" className="font-semibold">紧急传承</Link>
+          <Link to="/" className="font-semibold">Leave Something Behind</Link>
           <nav className="flex items-center gap-3">
             <Link to="/">首页</Link>
             {user && <Link to="/legacy">传承</Link>}

@@ -1,22 +1,7 @@
-import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field"
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSlot,
-} from "@/components/ui/input-otp"
+import { Button } from "./button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./card"
+import { Field, FieldDescription, FieldGroup, FieldLabel } from "./field"
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "./input-otp"
 
 export function OTPForm({ ...props }: React.ComponentProps<typeof Card>) {
   return (

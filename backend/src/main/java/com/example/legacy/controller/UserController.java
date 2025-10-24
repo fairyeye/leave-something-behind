@@ -25,4 +25,20 @@ public class UserController {
     public ResponseEntity<AuthDtos.UserDTO> update(@Valid @RequestBody AuthDtos.UpdateUserRequest req) {
         return ResponseEntity.ok(userService.update(req));
     }
+
+    @PutMapping("/emergency-settings")
+    public ResponseEntity<String> updateEmergencySettings(@RequestBody EmergencySettingsRequest req) {
+        userService.updateEmergencySettings(req.emergencyEmail, req.inactivityDays);
+        return ResponseEntity.ok("Emergency settings updated successfully");
+    }
+
+    @GetMapping("/emergency-settings")
+    public ResponseEntity<UserService.EmergencySettingsDTO> getEmergencySettings() {
+        return ResponseEntity.ok(userService.getEmergencySettings());
+    }
+
+    public static class EmergencySettingsRequest {
+        public String emergencyEmail;
+        public Integer inactivityDays;
+    }
 }

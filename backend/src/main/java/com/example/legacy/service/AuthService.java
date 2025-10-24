@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -52,6 +53,9 @@ public class AuthService {
         if (!passwordEncoder.matches(req.password, user.getPassword())) {
             throw new ApiException(HttpStatus.UNAUTHORIZED.value(), "Invalid credentials");
         }
+        user.setLastLoginAt(LocalDateTime.now());
+        user.setLegacySent(false);
+        userRepository.save(user);
         String token = tokenProvider.generateToken(user.getUsername(), user.getId(), user.getRoles());
         AuthDtos.UserDTO userDTO = new AuthDtos.UserDTO(user.getId(), user.getUsername(), user.getEmail(), user.getCreatedAt());
         return new AuthDtos.LoginResponse(token, userDTO);

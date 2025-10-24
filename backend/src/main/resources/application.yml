@@ -17,6 +17,17 @@ spring:
   jackson:
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 jwt:
   secret: ${JWT_SECRET:change-this-secret-please-change-to-a-long-random-string}
@@ -31,3 +42,10 @@ management:
 # For local dev frontend
 cors:
   allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173}
+
+# Application specific settings
+app:
+  email:
+    enabled: ${EMAIL_ENABLED:false}
+  scheduler:
+    inactivity-check-cron: ${INACTIVITY_CHECK_CRON:0 0 2 * * ?}

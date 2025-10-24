@@ -11,5 +11,6 @@ import java.util.Optional;
 @Repository
 public interface LegacyItemRepository extends JpaRepository<LegacyItem, Long> {
     List<LegacyItem> findByUserOrderByUpdatedAtDesc(User user);
+    List<LegacyItem> findByUserOrderByCreatedAtDesc(User user);
     Optional<LegacyItem> findByIdAndUser(Long id, User user);
 }

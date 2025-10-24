@@ -45,4 +45,32 @@ public class UserService {
         userRepository.save(u);
         return new AuthDtos.UserDTO(u.getId(), u.getUsername(), u.getEmail(), u.getCreatedAt());
     }
+
+    public void updateEmergencySettings(String emergencyEmail, Integer inactivityDays) {
+        User u = getCurrentUserEntity();
+        if (emergencyEmail != null && !emergencyEmail.isEmpty()) {
+            u.setEmergencyEmail(emergencyEmail);
+        }
+        if (inactivityDays != null && inactivityDays > 0) {
+            u.setInactivityDays(inactivityDays);
+        }
+        userRepository.save(u);
+    }
+
+    public EmergencySettingsDTO getEmergencySettings() {
+        User u = getCurrentUserEntity();
+        return new EmergencySettingsDTO(u.getEmergencyEmail(), u.getInactivityDays(), u.getLastLoginAt());
+    }
+
+    public static class EmergencySettingsDTO {
+        public String emergencyEmail;
+        public Integer inactivityDays;
+        public java.time.LocalDateTime lastLoginAt;
+
+        public EmergencySettingsDTO(String emergencyEmail, Integer inactivityDays, java.time.LocalDateTime lastLoginAt) {
+            this.emergencyEmail = emergencyEmail;
+            this.inactivityDays = inactivityDays;
+            this.lastLoginAt = lastLoginAt;
+        }
+    }
 }

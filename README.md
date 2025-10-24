@@ -50,6 +50,7 @@ Leave something behind
 6) 数据库设计
 - users
   - id (PK), username (UNIQUE), email (UNIQUE), password, roles, created_at, updated_at
+  - last_login_at, emergency_email, inactivity_days, legacy_sent
 - legacy_items
   - id (PK), user_id (FK->users.id), category, title, content, created_at, updated_at
 - JPA 自动建表（spring.jpa.hibernate.ddl-auto=update）
@@ -64,6 +65,12 @@ Leave something behind
   - DB_PASSWORD（默认 password）
   - JWT_SECRET（默认 change-this-secret-please-change-to-a-long-random-string）
   - CORS_ALLOWED_ORIGINS（默认 http://localhost:5173）
+  - EMAIL_ENABLED（默认 false，设置为 true 启用邮件功能）
+  - MAIL_HOST（默认 smtp.gmail.com）
+  - MAIL_PORT（默认 587）
+  - MAIL_USERNAME（邮箱账号）
+  - MAIL_PASSWORD（邮箱密码或应用专用密码）
+  - INACTIVITY_CHECK_CRON（默认 0 0 2 * * ?，每天凌晨2点检查）
 - 启动：
   cd backend && mvn spring-boot:run
 - Swagger UI：
@@ -106,6 +113,11 @@ Leave something behind
 - GET /api/legacy/{id} (auth)
 - PUT /api/legacy/{id} (auth)
 - DELETE /api/legacy/{id} (auth)
+- GET /api/user/emergency-settings (auth)
+  - 200: { emergencyEmail, inactivityDays, lastLoginAt }
+- PUT /api/user/emergency-settings (auth)
+  - body: { emergencyEmail, inactivityDays }
+  - 200: "Emergency settings updated successfully"
 
 四、部署与运行说明（简要）
 - 生产部署建议：
@@ -146,3 +158,21 @@ frontend/
 备注
 - 该项目提供了关键代码实现与最小可用功能，便于快速启动与二次开发。
 - 可在此基础上扩展：多因子登录、数据加密、数据分享策略（如触发条件/可信联系人）、审计日志等。
+
+六、自动发送 Legacy 功能说明
+1) 功能介绍
+- 使用 Spring 内置的 @Scheduled 调度框架（轻量级）
+- 用户登录后会自动更新 last_login_at 时间戳
+- 用户可配置紧急联系人邮箱（emergency_email）和不活跃天数阈值（inactivity_days，默认30天）
+- 系统每天定时检查用户是否超过指定天数未登录
+- 如果超过阈值且未发送过邮件，则自动将用户维护的所有 Legacy 信息发送到紧急联系人邮箱
+- 发送成功后标记 legacy_sent=true，避免重复发送（用户重新登录后会重置为 false）
+
+2) 配置说明
+- 设置环境变量启用邮件功能：EMAIL_ENABLED=true
+- 配置邮箱服务器：MAIL_HOST、MAIL_PORT、MAIL_USERNAME、MAIL_PASSWORD
+- 自定义检查时间：INACTIVITY_CHECK_CRON（默认每天凌晨2点）
+
+3) API 使用
+- PUT /api/user/emergency-settings：配置紧急邮箱和不活跃天数
+- GET /api/user/emergency-settings：查询当前配置

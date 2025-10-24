@@ -32,6 +32,18 @@ public class User {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
+    @Column
+    private LocalDateTime lastLoginAt;
+
+    @Column(length = 100)
+    private String emergencyEmail;
+
+    @Column
+    private Integer inactivityDays = 30;
+
+    @Column
+    private Boolean legacySent = false;
+
     @PrePersist
     protected void onCreate() {
         LocalDateTime now = LocalDateTime.now();
@@ -79,4 +91,20 @@ public class User {
     public LocalDateTime getUpdatedAt() { return updatedAt; }
 
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+
+    public LocalDateTime getLastLoginAt() { return lastLoginAt; }
+
+    public void setLastLoginAt(LocalDateTime lastLoginAt) { this.lastLoginAt = lastLoginAt; }
+
+    public String getEmergencyEmail() { return emergencyEmail; }
+
+    public void setEmergencyEmail(String emergencyEmail) { this.emergencyEmail = emergencyEmail; }
+
+    public Integer getInactivityDays() { return inactivityDays; }
+
+    public void setInactivityDays(Integer inactivityDays) { this.inactivityDays = inactivityDays; }
+
+    public Boolean getLegacySent() { return legacySent; }
+
+    public void setLegacySent(Boolean legacySent) { this.legacySent = legacySent; }
 }
